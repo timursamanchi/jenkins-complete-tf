@@ -2,9 +2,16 @@
 
 echo 'Coded by Tim Samanchi Dec 2023!' > /tmp/README.txt
 
+
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install software-properties-common
+sudo apt-get -y install \
+                curl \
+                ca-certificates \
+                gnupg \
+                lsb-release
+lsb_release -a >> /tmp/README.txt                
 
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
     https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
@@ -16,6 +23,14 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 sudo apt-get update
 sudo apt-get -y install fontconfig openjdk-17-jre
 sudo apt-get -y install jenkins
+
+sudo apt-get install -y gnome-terminal
+
+# Download kubectl binary
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+source ~/.bashrc
 
 sudo apt-get -y install build-essential 
 sudo apt-get -y install python3

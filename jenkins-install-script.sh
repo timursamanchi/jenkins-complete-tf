@@ -4,6 +4,7 @@ echo 'Coded by Tim Samanchi Dec 2023!' > /tmp/README.txt
 
 sudo apt-get update
 sudo apt-get -y upgrade
+sudo apt-get -y install software-properties-common
 
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
     https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
@@ -29,7 +30,12 @@ sudo apt-get -y install \
                 libssl-dev \
                 libreadline-dev \
                 libsqlite3-dev \
-                zlib1g-dev
+                zlib1g-dev \
+                unzip
+
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt-get update && sudo apt-get -y install terraform
 
 sudo fallocate -l 1G /var/swapfile
 sudo chmod 600 /var/swapfile
@@ -41,3 +47,5 @@ sudo sysctl -p
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
 sudo systemctl restart nginx
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
